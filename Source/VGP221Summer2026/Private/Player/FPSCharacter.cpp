@@ -12,9 +12,21 @@ AFPSCharacter::AFPSCharacter()
 
 	UE_LOG(LogTemp, Warning, TEXT("Player Constructor Being Called"));
 
+	FPSCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FPSCameraComponent")); // Add Component in Unity
+	FPSCameraComponent->SetupAttachment(CastChecked<USceneComponent, UCapsuleComponent>(GetCapsuleComponent())); // Attach to Capsule Component
+	FPSCameraComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 50.0f + BaseEyeHeight));
+	FPSCameraComponent->bUsePawnControlRotation = true;
+
+	FPSMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FPSMeshComponent"));
+	FPSMeshComponent->SetupAttachment(FPSCameraComponent);
+	FPSMeshComponent->bCastDynamicShadow = false;
+	FPSMeshComponent->CastShadow = false;
+
+	GetMesh()->SetOwnerNoSee(true);
+
 	// Soft locking our editor
-	int* CrashPointer = nullptr;
-	//UE_LOG(LogTemp, Warning, TEXT("This will cause a soft crash where we can't open the editor: %i"), *CrashPointer);
+	// int* CrashPointer = nullptr;
+	// UE_LOG(LogTemp, Warning, TEXT("This will cause a soft crash where we can't open the editor: %i"), *CrashPointer);
 }
 
 // Called when the game starts or when spawned
