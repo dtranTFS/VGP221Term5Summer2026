@@ -11,6 +11,7 @@ AFPSProjectile::AFPSProjectile()
 
 	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 	CollisionComponent->InitSphereRadius(15.0f);
+	CollisionComponent->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
 	CollisionComponent->OnComponentHit.AddDynamic(this, &AFPSProjectile::OnWhateverWeWantToNameThis);
 	RootComponent = CollisionComponent;
 
@@ -79,6 +80,8 @@ void AFPSProjectile::OnWhateverWeWantToNameThis(UPrimitiveComponent* HitComponen
 		OtherComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 100.0f, Hit.ImpactPoint);
 		Destroy();
 	}
+
+	UE_LOG(LogTemp, Warning, TEXT("Projectile hit: %s"), *OtherActor->GetName());
 }
 
 
