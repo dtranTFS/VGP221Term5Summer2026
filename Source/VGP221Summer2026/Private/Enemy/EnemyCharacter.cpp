@@ -2,6 +2,8 @@
 
 
 #include "Enemy/EnemyCharacter.h"
+#include "Kismet/GameplayStatics.h"
+#include "Player/FPSCharacter.h"
 
 // Sets default values
 AEnemyCharacter::AEnemyCharacter()
@@ -15,7 +17,9 @@ AEnemyCharacter::AEnemyCharacter()
 void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	AFPSCharacter* PlayerCharacter = Cast<AFPSCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	PlayerCharacter->OnPlayerDied.AddDynamic(this, &AEnemyCharacter::OnPlayerDied);
 }
 
 // Called every frame
@@ -40,5 +44,10 @@ void AEnemyCharacter::OnEnemyTakeDamage(float Amount)
 	{
 		Destroy();
 	}
+}
+
+void AEnemyCharacter::OnPlayerDied()
+{
+	Destroy();
 }
 

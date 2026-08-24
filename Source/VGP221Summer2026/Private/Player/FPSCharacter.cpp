@@ -144,6 +144,13 @@ void AFPSCharacter::OnHurtPlayer(float DamageAmount)
 
 	if(Health <= 0.0f)
 	{
-		UGameplayStatics::OpenLevel(this, FName("GameMap"));
+		// UGameplayStatics::OpenLevel(this, FName("GameMap"));
+		OnPlayerDied.Broadcast();
 	}
+}
+
+float AFPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	OnHurtPlayer(DamageAmount);
+	return DamageAmount;
 }

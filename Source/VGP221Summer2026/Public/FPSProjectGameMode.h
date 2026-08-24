@@ -14,5 +14,9 @@ class VGP221SUMMER2026_API AFPSProjectGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+public:
 	virtual void StartPlay() override;
+
+	UFUNCTION()
+	void GoToGameOver();
 };
